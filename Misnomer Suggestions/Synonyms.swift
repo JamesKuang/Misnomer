@@ -27,13 +27,12 @@ extension Synonyms {
         }
         
         let json = JSON(response)
-        var result = [String]()
-        for (_, subJson):(String, JSON) in json {
-            guard let synonyms = subJson["list"]["synonyms"].string else { continue }
-            result.append(contentsOf: synonyms.components(separatedBy: "|"))
+        let result = json.reduce([]) { (result, subJson) -> [String] in
+            guard let synonyms = subJson.1["list"]["synonyms"].string else { return result }
+            return result + synonyms.components(separatedBy: "|")
         }
 
-        self.word = word
+        self.word = word.trimmingCharacters(in: .whitespacesAndNewlines)
         self.all = Set(result)
     }
 }

@@ -16,7 +16,7 @@ extension WordQuery {
     var synonyms: Resource<Synonyms> {
         let parameters = AlterVistaURLParameters(word: word)
         return Resource<Synonyms>(url: parameters.url, parseJSON: { json in
-            guard let response = json as? [String: AnyObject] else { return nil }
+            guard let response = json as? [String: Any] else { return nil }
             print(response)
             return Synonyms(word: self.word, dictionary: response)
         })
